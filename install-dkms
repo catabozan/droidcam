@@ -2,23 +2,6 @@
 #
 # Usage: ./install-dkms [640 480]
 
-set -e
-REPO_PATH="$(/usr/bin/dirname $([ -L $0 ] && /bin/readlink -f $0 || echo $0))"
-source "${REPO_PATH}/install.common"
-check_if_installed
-
-generate_dkms_conf() {
-    local target="$*"
-    cat <<EOF > "${target}"
-PACKAGE_NAME="${V4L2_LOOPBACK_DC}"
-PACKAGE_VERSION="${V4L2_LOOPBACK_VERSION}"
-CLEAN="make clean"
-MAKE[0]="make all KVERSION=$kernelver"
-BUILT_MODULE_NAME[0]="${V4L2_LOOPBACK_KM}"
-DEST_MODULE_LOCATION[0]="/updates"
-AUTOINSTALL="yes"
-EOF
-}
 
 setup_dkms_module() {
     # Copying module dir with name expected by dkms in /usr/src
